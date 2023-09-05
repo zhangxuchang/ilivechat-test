@@ -4,7 +4,7 @@ import org.okt.ilivechat.chat.ChatService
 
 fun main(args: Array<String>) {
     val chatService = ChatService()
-    println("输入 :help 显示使用帮助")
+    println("Ilive chat 测试程序, 输入:help显示使用帮助")
     while (true) {
         when (val msg = readln()) {
             ":help" -> printHelp()
@@ -26,6 +26,6 @@ private fun printHelp() {
     println(":bye 退出")
     println(":login-用户ID整数 登录")
     println(":room-房间ID整数 加入房间")
-    println("其余自由输入是聊天模式")
+    println("登陆后自由输入是聊天模式")
     println("--------End---------")
 }
