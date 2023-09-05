@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("com.github.highras:rtm-server-sdk:2.5.4-RELEASE")
 }
 
 tasks.test {
