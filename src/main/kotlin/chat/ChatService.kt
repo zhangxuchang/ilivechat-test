@@ -7,6 +7,9 @@ import com.fpnn.rtm.RTMServerClient
 import com.fpnn.sdk.ErrorCode
 import java.net.InetSocketAddress
 
+/**
+ * API Doc: https://github.com/highras/rtm-server-sdk-java/tree/master/doc
+ */
 class ChatService {
     private var userId = 0L
     private var roomId = 0L
@@ -35,6 +38,8 @@ class ChatService {
             if (roomId > 0) {
                 this.roomId = roomId
                 println("用户[$userId]加入房间[$roomId]成功")
+                println("History message: ")
+                retrieveLatestMessageHistory(20,false)
             } else {
                 println("房间ID必须大于0")
             }
@@ -51,7 +56,7 @@ class ChatService {
         rtmClient.sendRoomChat(this.userId, this.roomId, msg, "") { _, errorCode, errorMessage ->
             if (errorCode == ErrorCode.FPNN_EC_OK.value()) {
                 //logger.info("(room-msg) sender=$fromUid,room=$roomId,answer time = $time1")
-                retrieveLatestMessageHistory()
+                retrieveLatestMessageHistory(1,true)
             } else {
                 println("(room-msg) sender=${userId},room=$roomId,err-code=$errorCode,err-msg=$errorMessage")
             }
@@ -86,16 +91,17 @@ class ChatService {
         return client
     }
 
-    private fun retrieveLatestMessageHistory() {
+    private fun retrieveLatestMessageHistory(count: Int = 10,desc: Boolean = false) {
         if (!isInLoginStatus()) {
             return
         }
-        rtmClient.getRoomChat(this.userId, this.roomId, true, 10) { result,code,msg ->
+        rtmClient.getRoomChat(this.userId, this.roomId, desc, count) { result,code,msg ->
             if (code != ErrorCode.FPNN_EC_OK.value()) {
                 println("Fail to retrieve latest message history, error code: $code, error message: $msg")
             } else {
-                println("History message: ")
-                println(result.toString())
+                result.messageList.forEach { msgUnit ->
+                    println("[${msgUnit.message.fromUid}]: ${msgUnit.message.stringMessage}")
+                }
             }
         }
     }
