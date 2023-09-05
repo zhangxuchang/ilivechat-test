@@ -8,7 +8,6 @@ fun main(args: Array<String>) {
     println("========= Ilive chat 测试程序, 输入:help显示使用帮助 ========= ")
     println("==============================================================")
     while (true) {
-        print(">")
         when (val msg = readln()) {
             ":help" -> printHelp()
             ":bye" -> {

@@ -38,7 +38,7 @@ class ChatService {
             if (roomId > 0) {
                 this.roomId = roomId
                 println("用户[$userId]加入房间[$roomId]成功")
-                println("History message: ")
+                println("[History message:] ")
                 retrieveLatestMessageHistory(20,false)
             } else {
                 println("房间ID必须大于0")
@@ -80,7 +80,7 @@ class ChatService {
         val connectCallback =
             RTMClientConnectCallback { peerAddress: InetSocketAddress, connected: Boolean, reConnect: Boolean, regressiveState: RTMServerClient.RegressiveState? ->
                 if (connected) {
-                    println("rtm client connected $peerAddress")
+                    //println("rtm client connected $peerAddress")
                 } else if (regressiveState != null) {
                     val info =
                         "RTMReconnect time at " + regressiveState.connectSuccessMilliseconds.toString() + " ,currentFailedCount = " + regressiveState.currentFailedCount
