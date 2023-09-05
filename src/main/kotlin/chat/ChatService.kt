@@ -38,8 +38,8 @@ class ChatService {
             if (roomId > 0) {
                 this.roomId = roomId
                 println("用户[$userId]加入房间[$roomId]成功")
-                println("[History message:] ")
-                retrieveLatestMessageHistory(20,false)
+                println("[History latest 10 messages:] ")
+                retrieveLatestMessageHistory(10,false)
             } else {
                 println("房间ID必须大于0")
             }
@@ -91,14 +91,17 @@ class ChatService {
         return client
     }
 
-    private fun retrieveLatestMessageHistory(count: Int = 10,desc: Boolean = false) {
+    private fun retrieveLatestMessageHistory(count: Int,desc: Boolean = false) {
         if (!isInLoginStatus()) {
             return
         }
-        rtmClient.getRoomChat(this.userId, this.roomId, desc, count) { result,code,msg ->
+        rtmClient.getRoomChat(this.userId, this.roomId, true, count) { result,code,msg ->
             if (code != ErrorCode.FPNN_EC_OK.value()) {
                 println("Fail to retrieve latest message history, error code: $code, error message: $msg")
             } else {
+                if (!desc) {
+                    result.messageList.reverse()
+                }
                 result.messageList.forEach { msgUnit ->
                     println("[${msgUnit.message.fromUid}]: ${msgUnit.message.stringMessage}")
                 }
