@@ -12,6 +12,7 @@ class ChatService {
             } else {
                 println("用户ID必须大于0")
             }
+            return
         }
 
         if(msg.startsWith(":room-")) {
@@ -22,19 +23,27 @@ class ChatService {
             } else {
                 println("房间ID必须大于0")
             }
+            return
         }
         sendMsg(msg)
     }
 
     private fun sendMsg(msg: String) {
-        if (userId == 0) {
-            println("请先登录> 输入:login-用户ID整数")
-            return
-        }
-        if (roomId == 0) {
-            println("请先加入房间> 输入:room-房间ID整数")
+        if (!isInLoginStatus()) {
             return
         }
         println("用户[$userId]: $msg")
+    }
+
+    private fun isInLoginStatus(): Boolean {
+        if (userId == 0) {
+            println("请先登录> 输入:login-用户ID整数")
+            return false
+        }
+        if (roomId == 0) {
+            println("请先加入房间> 输入:room-房间ID整数")
+            return false
+        }
+        return true
     }
 }
