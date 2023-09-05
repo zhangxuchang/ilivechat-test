@@ -5,7 +5,7 @@ plugins {
     application
 }
 
-group = "org.test"
+group = "org.okt.ilivechat"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -25,5 +25,5 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("org.okt.ilivechat.MainKt")
 }
